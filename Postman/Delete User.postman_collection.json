@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "ba8688c8-3b75-4c16-b79a-e85b85fb4e1c",
+		"name": "Delete User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4347402"
+	},
+	"item": [
+		{
+			"name": "Get Cards to Learn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"Get Cards to learn\");\r",
+							"pm.test(`Get Cards to Learn - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/learns/?categoryId={{categoryId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"learns",
+						""
+					],
+					"query": [
+						{
+							"key": "categoryId",
+							"value": "{{categoryId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"Get User Information\");\r",
+							"pm.test(`Login User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/users/info?userId={{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"users",
+						"info"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Deleted User:\" + pm.environment.get('userId'));\r",
+							"\r",
+							"pm.test(`Delete User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/users/?userId={{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUser Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Login User :\" + pm.environment.get('userId'));\r",
+							"\r",
+							"pm.test(`Delete User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([403])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"mailAddress\":\"{{emailAddress}}\",\"password\":\"Password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/auth/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

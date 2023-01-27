@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "b0b06669-fd26-446c-a89e-a98668422383",
+		"name": "Card2Brain Create User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4347402"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var token = pm.response.json().token;\r",
+							"pm.environment.set(\"token\", pm.response.json().token);\r",
+							"a = token.split('.');\r",
+							"\r",
+							"\r",
+							"//a.forEach(function (val) {\r",
+							"    var words = CryptoJS.enc.Base64.parse(a[1]);\r",
+							"    var textString = CryptoJS.enc.Utf8.stringify(words);\r",
+							"    //console.log(\"JWT for registrate a user\");\r",
+							"    //console.log(textString);\r",
+							"//})\r",
+							"pm.environment.set(\"userId\",JSON.parse(textString).ID);\r",
+							"pm.environment.set(\"emailAddress\",JSON.parse(textString).sub);\r",
+							"\r",
+							"console.log(\"Create User :\" + pm.environment.get('userId') + \" eMail : \" + pm.environment.get('emailAddress'));\r",
+							"pm.test(`Create User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"}) \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": null,\r\n    \"userName\": \"Postman\",\r\n    \"firstName\": \"Tests\",\r\n    \"mailAddress\": \"{{$randomEmail}}\",\r\n    \"password\": \"Password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/auth/register",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"categoryId\", jsonData.id);\r",
+							"\r",
+							"console.log(\"Create Category :\" + jsonData.categoryName);\r",
+							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"categoryName\":\"PostMan Latein\",\"owner\":{{userId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/categories/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"categories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCategory 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"categoryId\", jsonData.id);\r",
+							"\r",
+							"console.log(\"Create Category :\" + jsonData.categoryName);\r",
+							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"categoryName\":\"PostMan Französisch\",\"owner\":{{userId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/categories/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"categories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"categoryId\", jsonData.id);\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"Question Postman\",\"answer\":\"Answer Postman\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var token = pm.response.json().token;\r",
+							"a = token.split('.');\r",
+							"\r",
+							"\r",
+							"//a.forEach(function (val) {\r",
+							"    var words = CryptoJS.enc.Base64.parse(a[1]);\r",
+							"    var textString = CryptoJS.enc.Utf8.stringify(words);\r",
+							"  //  console.log(\"JWT for login User\");\r",
+							"  //  console.log(textString);\r",
+							"//})\r",
+							"\r",
+							"pm.environment.set(\"userId\",JSON.parse(textString).ID);\r",
+							"console.log(\"Login User :\"+JSON.parse(textString).ID + \" emailAddress :\" + JSON.parse(textString).sub);\r",
+							"pm.test(`Login User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"}) \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"mailAddress\":\"{{emailAddress}}\",\"password\":\"Password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/auth/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCategory 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"categoryId\", jsonData.id);\r",
+							"\r",
+							"console.log(\"Create Category :\" + jsonData.categoryName);\r",
+							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"categoryName\":\"Postman Deutsch\",\"owner\":{{userId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/categories/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"categories",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
