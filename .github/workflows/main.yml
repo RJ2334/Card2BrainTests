@@ -33,7 +33,7 @@ jobs:
           newman run ./Postman/Card2Brain_Create_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/createUser.html
       - name: Run POSTMAN Create cards
         run: | 
-          newman run ./Postman/Create_Cards.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r -verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/createCards.html
+          newman run ./Postman/Create_Cards.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/createCards.html
       - name: Run POSTMAN delete user
         run: |
           newman run ./Postman/Delete_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/deleteUser.html
