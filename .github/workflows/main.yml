@@ -30,7 +30,7 @@ jobs:
       # Run the POSTMAN collection
       - name: Run POSTMAN collection
         run: |
-          newman run ./Postman/Card2Brain_Create_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+          newman run ./Postman/Card2Brain_Create_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
       # newman run ./Postman/Create_Cards.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
       # newman run ./Postman/Delete_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
 
