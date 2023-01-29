@@ -68,6 +68,62 @@
 			"response": []
 		},
 		{
+			"name": "CreateCategory with empty name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`Category is empty :`, () => {\r",
+							"    pm.expect(responseBody).to.equal(\"Error: Category is empty. Please enter a valid category.\")});\r",
+							"\r",
+							"\r",
+							"console.log(\"Create Category is empty\");\r",
+							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([406])});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"categoryName\":\"\",\"owner\":{{userId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/categories/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"categories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "CreateCategory",
 			"event": [
 				{
@@ -75,9 +131,12 @@
 					"script": {
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.environment.set(\"categoryId\", jsonData.id);\r",
 							"\r",
-							"console.log(\"Create Category :\" + jsonData.categoryName);\r",
+							"console.log(\"Create Category \" + jsonData.categoryName);\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"categoryId\", jsonData.id);\r",
 							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([201])});"
 						],
@@ -100,7 +159,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":null,\"categoryName\":\"PostMan Latein\",\"owner\":{{userId}}}",
+					"raw": "{\"id\":null,\"categoryName\":\"Postman Latein\",\"owner\":{{userId}}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -174,6 +233,171 @@
 					"path": [
 						"api",
 						"categories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard but card has no question and no answer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`Card is empty :`, () => {\r",
+							"    pm.expect(responseBody).to.equal(\"Error: Card is invalid. Please enter an answer.\")});\r",
+							"\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([406])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"\",\"answer\":\"\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard but card has no question",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`Card is empty :`, () => {\r",
+							"    pm.expect(responseBody).to.equal(\"Error: Card is invalid. Please enter a question.\")});\r",
+							"\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([406])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"\",\"answer\":\"answer\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard but card has no question Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`Card is empty :`, () => {\r",
+							"    pm.expect(responseBody).to.equal(\"Error: Card is invalid. Please enter an answer.\")});\r",
+							"\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([406])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"question\",\"answer\":\"\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
 						""
 					]
 				}
