@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b0b06669-fd26-446c-a89e-a98668422383",
-		"name": "Card2Brain Create User",
+		"name": "Card2Brain_Backen_REST_Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4347402"
 	},
@@ -246,11 +246,11 @@
 							"console.log(\"Update Card :\" + jsonData.cardId);\r",
 							"\r",
 							"pm.test(`Update Card : ${jsonData.cardId}`, () => {\r",
-							"    pm.expect(jsonData.queation).to.equal(\"Updated Question\")});\r",
+							"    pm.expect(jsonData.question).to.equal(`Updated Question`)});\r",
 							"\r",
 							"\r",
 							"pm.test(`Update Card : ${jsonData.cardId}`, () => {\r",
-							"    pm.expect(jsonData.answer).to.equal(\"UpdatedAnswer\")});\r",
+							"    pm.expect(jsonData.answer).to.equal(`Updated Answer`)});\r",
 							"\r",
 							"\r",
 							"pm.test(`Card Updated - Status Code was: ${pm.response.code}`, () => {\r",
@@ -276,7 +276,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\": {{cardId}},\"question\": \"Updated Question\",\"answer\": \"UpdatedAnswer\",\"categoryId\": {{categoryId}}\r\n}",
+					"raw": "{\"id\": {{cardId}},\"question\": \"Updated Question\",\"answer\": \"Updated Answer\",\"categoryId\": {{categoryId}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -312,7 +312,7 @@
 					"script": {
 						"exec": [
 							"pm.test(`Delete Card - Status Code was: ${pm.response.code}`, () => {\r",
-							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
 							"}) "
 						],
 						"type": "text/javascript"
@@ -342,7 +342,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}:9001/api/cards/?cardId=cardId",
+					"raw": "{{url}}:9001/api/cards/?cardId={{cardId}}",
 					"host": [
 						"{{url}}"
 					],
@@ -355,7 +355,7 @@
 					"query": [
 						{
 							"key": "cardId",
-							"value": "cardId"
+							"value": "{{cardId}}"
 						}
 					]
 				}
@@ -910,7 +910,7 @@
 							"console.log(\"Login User :\" + pm.environment.get('userId'));\r",
 							"\r",
 							"pm.test(`Login User - Status Code was: ${pm.response.code}`, () => {\r",
-							"    pm.expect(pm.response.code).to.be.oneOf([403])\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([404])\r",
 							"})\r",
 							""
 						],

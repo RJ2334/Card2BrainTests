@@ -30,7 +30,7 @@ jobs:
       # Run the POSTMAN collection
       - name: Run POSTMAN  Create user
         run: |
-          newman run ./Postman/Card2Brain_Create_User.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/createUser.html
+          newman run ./Postman/Card2Brain_Backen_REST_Test.postman_collection.json -e ./Postman/Card2Brain_Environment.postman_environment.json -r --verbose htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/createUser.html
 
       # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
