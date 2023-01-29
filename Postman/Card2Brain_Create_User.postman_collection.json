@@ -123,18 +123,21 @@
 			"response": []
 		},
 		{
-			"name": "CreateCategory 2",
+			"name": "UpdateCategory",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.environment.set(\"categoryId\", jsonData.id);\r",
 							"\r",
-							"console.log(\"Create Category :\" + jsonData.categoryName);\r",
-							"pm.test(`Create Category - Status Code was: ${pm.response.code}`, () => {\r",
-							"    pm.expect(pm.response.code).to.be.oneOf([201])});"
+							"console.log(\"Update Category :\" + jsonData.categoryName);\r",
+							"\r",
+							"pm.test(`Update category name check : ${jsonData.categoryName}`, () => {\r",
+							"    pm.expect(jsonData.categoryName).to.equal(\"PostMan Updated Latein\")});\r",
+							"\r",
+							"pm.test(`Update Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])});"
 						],
 						"type": "text/javascript"
 					}
@@ -151,11 +154,11 @@
 						}
 					]
 				},
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":null,\"categoryName\":\"PostMan Französisch\",\"owner\":{{userId}}}",
+					"raw": "{\"id\":{{categoryId}},\"categoryName\":\"PostMan Updated Latein\",\"owner\":{{userId}}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,7 +188,7 @@
 					"script": {
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.environment.set(\"categoryId\", jsonData.id);\r",
+							"pm.environment.set(\"cardId\", jsonData.id);\r",
 							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
 							"}) "
@@ -210,6 +213,188 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":null,\"question\":\"Question Postman\",\"answer\":\"Answer Postman\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"Update Card :\" + jsonData.cardId);\r",
+							"\r",
+							"pm.test(`Update Card : ${jsonData.cardId}`, () => {\r",
+							"    pm.expect(jsonData.queation).to.equal(\"Updated Question\")});\r",
+							"\r",
+							"\r",
+							"pm.test(`Update Card : ${jsonData.cardId}`, () => {\r",
+							"    pm.expect(jsonData.answer).to.equal(\"UpdatedAnswer\")});\r",
+							"\r",
+							"\r",
+							"pm.test(`Card Updated - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": {{cardId}},\"question\": \"Updated Question\",\"answer\": \"UpdatedAnswer\",\"categoryId\": {{categoryId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/?categoryId=categoryId",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					],
+					"query": [
+						{
+							"key": "categoryId",
+							"value": "categoryId"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`Delete Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/?cardId=cardId",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					],
+					"query": [
+						{
+							"key": "cardId",
+							"value": "cardId"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"cardId\", jsonData.id);\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"Question2 Postman\",\"answer\":\"Answer2 Postman\",\"categoryId\":{{categoryId}}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -294,7 +479,257 @@
 			"response": []
 		},
 		{
-			"name": "CreateCategory 3",
+			"name": "Get Users Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"Get User Information\");\r",
+							"pm.test(`Login User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/users/info?userId={{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"users",
+						"info"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cards to Learn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"Get Cards to learn\");\r",
+							"pm.test(`Get Cards to Learn - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/learns/?categoryId={{categoryId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"learns",
+						""
+					],
+					"query": [
+						{
+							"key": "categoryId",
+							"value": "{{categoryId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Card after learn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Post Cards after learn\");\r",
+							"pm.test(`Post Card after learn - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardId\": {{cardId}},\r\n  \"correct\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/learns/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"learns",
+						""
+					],
+					"query": [
+						{
+							"key": "categoryId",
+							"value": "{{categoryId}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"console.log(\"Delete Category :\" + pm.environment.get(\"categoryId\"));\r",
+							"pm.test(`Delete Category - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/categories/?categoryId={{categoryId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"categories",
+						""
+					],
+					"query": [
+						{
+							"key": "categoryId",
+							"value": "{{categoryId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCategory",
 			"event": [
 				{
 					"listen": "test",
@@ -326,7 +761,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":null,\"categoryName\":\"Postman Deutsch\",\"owner\":{{userId}}}",
+					"raw": "{\"id\":null,\"categoryName\":\"PostMan Latein\",\"owner\":{{userId}}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -343,6 +778,171 @@
 						"api",
 						"categories",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"cardId\", jsonData.id);\r",
+							"pm.test(`Create Card - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201])\r",
+							"}) "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":null,\"question\":\"Question Postman\",\"answer\":\"Answer Postman\",\"categoryId\":{{categoryId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/cards/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"cards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Deleted User:\" + pm.environment.get('userId'));\r",
+							"\r",
+							"pm.test(`Delete User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/users/?userId={{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUser Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Login User :\" + pm.environment.get('userId'));\r",
+							"\r",
+							"pm.test(`Login User - Status Code was: ${pm.response.code}`, () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([403])\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"mailAddress\":\"{{emailAddress}}\",\"password\":\"Password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:9001/api/auth/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"auth",
+						"authenticate"
 					]
 				}
 			},
